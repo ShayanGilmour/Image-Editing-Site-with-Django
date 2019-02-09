@@ -2,18 +2,6 @@
 <html lang="en">
 <body>
 
-<!--
-Salam E
-here are numbers:
-{%  for i in lst %}
-{{ i }},</br>
-{% endfor %}
-<br>LISTENN:<br>
-{%  for i in lst %}
-{{ i }},</br>
-{% endfor %}-->
-
-
 <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <input type="file" name="fileToUpload" id="fileToUpload">

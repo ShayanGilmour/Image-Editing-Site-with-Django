@@ -79,11 +79,12 @@ def rotate(request):
     })
 
 def share(request):
-    req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
-    req.share = True;
-    req.save();
-    shared = Req.objects.filter(share=True);
+    if request.method == "POST":
+        req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
+        req.share = True;
+        req.save();
 
+    shared = Req.objects.filter(share=True);
     return render(request, 'fileuploader/shared.html', {
         'shared': shared, 'request': request,
     })

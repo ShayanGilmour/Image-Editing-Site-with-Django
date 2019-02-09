@@ -11,7 +11,8 @@
 <img src='{{ req.image.url }}' height=300px/>
 <br>
 
-<form action="{% url 'blackandwhite' %}" method="get" value="Black And White" name="BlackAndWhite">
+<form action="{% url 'blackandwhite' %}" method="post" value="Black And White" name="BlackAndWhite">
+{% csrf_token %}
 <button type="submit">Black and White</button>
 </form> <br><br>
 
@@ -20,7 +21,7 @@ Resize:
 {% csrf_token %}
 Height: <input type="text" name="height">
 Width: <input type="text" name="width">
-<input type="submit">
+<button type="submit">Resize</button>
 </form><br><br>
 
 Croping:
@@ -40,8 +41,10 @@ Degree: <input type="text" name="degree">
 <input type="submit">
 </form><br><br>
 
+
 <br><br>
-<form action="{% url 'share' %}" method="get" value="share" name="share">
+<form action="{% url 'share' %}" method="post" value="share" name="share">
+{% csrf_token %}
 <button type="submit">Share this crap</button>
 </form>
 </center>

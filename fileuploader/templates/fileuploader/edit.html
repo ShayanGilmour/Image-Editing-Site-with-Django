@@ -12,8 +12,16 @@
 <br>
 
 <form action="{% url 'blackandwhite' %}" method="get" value="Black And White" name="BlackAndWhite">
-  <button type="submit">Black AND WHITE</button><br>
-</form>
+<button type="submit">Black and White</button>
+</form> <br><br>
+
+Resize:
+<form action="{% url 'resize' %}" method="post">
+{% csrf_token %}
+Height: <input type="text" name="height">
+Width: <input type="text" name="width">
+<input type="submit">
+</form><br><br>
 
 </center>
 

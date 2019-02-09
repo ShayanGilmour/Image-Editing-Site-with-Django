@@ -9,45 +9,40 @@ import os
 
 
 def index(request):
-#    return render(request, 'fileuploader/index.html', {
-#        'lst': [1, 2, 3, 4, 5, 'salam'], 'lst2':[10, 11, 12, 13],
-#    })
     return render(request, 'fileuploader/index.html');
 
 
 def upload(request):
-#    fileName = default_storage.save('file', request.FILES['fileToUpload'])
-#    path = "media/" + path;
     req = Req(image = request.FILES['fileToUpload']);
-#    req.session;  #MAY be useless
     req.save();
-    request.session['photoId'] = req.id;
+    request.session['photoId'] = req.id;        #Sets an id for the client
 
     return render(request, 'fileuploader/edit.html', {
         'req': req, 'request': request,
     })
-#    return render(request, 'fileuploader/edit.html', {
-#        'path': paths, })
 
-def blackandwhite(request):
-    req = Req.objects.filter(pk=request.session['photoId']);
-    req = req[0];
 
-#    return render(request, 'fileuploader/debug.html', {
-#        'req': req, 'request': request,
-#    })
+def blackAndWhite(request):
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0]; #Finds the uploaded image
 
-#    Req.objects.filter(pk=request.session['photoId']).delete();          # should be removed from the database?
     imageTmp = Image.open(req.image); #The image that should be edited
-    imageTmp = imageTmp.convert('L');
-#    imageTmp.save(req.image.url);
-#    req.image = imageTmp;
-#    Req.objects.filter(pk=request.session['photoId']).delete();
+    imageTmp = imageTmp.convert('L'); #Black and White
+
     os.remove(req.image.path);
     imageTmp.save(req.image.path);
-#    imageTmp.save('/media/bullshit');
-#    req.save();
 
+    return render(request, 'fileuploader/edit.html', {
+        'req': req, 'request': request,
+    })
+
+def resize(request):
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0]; #Finds the uploaded image
+    imageTmp = Image.open(req.image); #The image that should be edited
+    height = request.POST.get('height', '');
+    width =  request.POST.get('width',  '');
+    imageTmp = imageTmp.resize(( int(width), int(height) ));
+    os.remove(req.image.path);
+    imageTmp.save(req.image.path);
     return render(request, 'fileuploader/edit.html', {
         'req': req, 'request': request,
     })

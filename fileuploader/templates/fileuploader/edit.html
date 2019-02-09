@@ -23,6 +23,27 @@ Width: <input type="text" name="width">
 <input type="submit">
 </form><br><br>
 
+Croping:
+<form action="{% url 'crop' %}" method="post">
+{% csrf_token %}
+Left: <input type="text" name="left">
+Upper: <input type="text" name="upper">
+Right: <input type="text" name="right">
+Lower: <input type="text" name="lower">
+<input type="submit">
+</form><br><br>
+
+Rotate:
+<form action="{% url 'rotate' %}" method="post">
+{% csrf_token %}
+Degree: <input type="text" name="degree">
+<input type="submit">
+</form><br><br>
+
+<br><br>
+<form action="{% url 'share' %}" method="get" value="share" name="share">
+<button type="submit">Share this crap</button>
+</form>
 </center>
 
 </body>

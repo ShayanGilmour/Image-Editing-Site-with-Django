@@ -36,13 +36,54 @@ def blackAndWhite(request):
     })
 
 def resize(request):
-    req = Req.objects.filter(pk=request.session['photoId']); req = req[0]; #Finds the uploaded image
-    imageTmp = Image.open(req.image); #The image that should be edited
-    height = request.POST.get('height', '');
-    width =  request.POST.get('width',  '');
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
+
+    imageTmp = Image.open(req.image);
+    height = request.POST.get('height', ''); width =  request.POST.get('width',  '');
     imageTmp = imageTmp.resize(( int(width), int(height) ));
+
     os.remove(req.image.path);
     imageTmp.save(req.image.path);
     return render(request, 'fileuploader/edit.html', {
         'req': req, 'request': request,
+    })
+
+
+def crop(request):
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
+
+    imageTmp = Image.open(req.image);
+    left = int (request.POST.get('left', ''));
+    upper = int (request.POST.get('upper',  ''));
+    right = int (request.POST.get('right', ''));
+    lower = int (request.POST.get('lower',  ''));
+    imageTmp = imageTmp.crop (( left, upper, right, lower ));
+
+    os.remove(req.image.path);
+    imageTmp.save(req.image.path);
+    return render(request, 'fileuploader/edit.html', {
+        'req': req, 'request': request,
+    })
+
+def rotate(request):
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
+
+    imageTmp = Image.open(req.image);
+    degree = request.POST.get('degree', '');
+    imageTmp = imageTmp.rotate(( int(degree) ));
+
+    os.remove(req.image.path);
+    imageTmp.save(req.image.path);
+    return render(request, 'fileuploader/edit.html', {
+        'req': req, 'request': request,
+    })
+
+def share(request):
+    req = Req.objects.filter(pk=request.session['photoId']); req = req[0];
+    req.share = True;
+    req.save();
+    shared = Req.objects.filter(share=True);
+
+    return render(request, 'fileuploader/shared.html', {
+        'shared': shared, 'request': request,
     })

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+SHARED CRAPS<br>
+<ul>
+{% for req in shared %}
+<img src='{{ req.image.url }}' height=300px/>
+{% endfor %}
+</ul>
+
+<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="file" name="fileToUpload" id="fileToUpload">
+<input type="submit" value="Upload File" name="submit">
+</form>
+
+</body>
+</html>
